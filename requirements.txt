@@ -1,0 +1,8 @@
+HydroErr
+pandas
+pyextremes
+PyWavelets
+scikit_learn
+scipy
+tensorflow
+xgboost
