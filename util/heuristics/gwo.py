@@ -106,7 +106,9 @@ def grey_wolf_optimizer(pack_size = 5, min_values = [-100,-100], max_values = [1
     delta    = delta_position(min_values, max_values, target_function)
     position = initial_variables(pack_size, min_values, max_values, target_function, start_init)
     count    = 0
+    evo = []
     while (count <= iterations): 
+        evo.append(alpha)
         if (verbose == True):    
             print('Iteration = ', count, ' f(x) = ', alpha[-1])      
         a_linear_component = 2 - count*(2/iterations)
@@ -119,6 +121,6 @@ def grey_wolf_optimizer(pack_size = 5, min_values = [-100,-100], max_values = [1
                 count = count + 1
         else:
             count = count + 1       
-    return alpha
+    return alpha,evo
 
 ############################################################################
