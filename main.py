@@ -30,8 +30,8 @@ from termcolor import colored
 from typing import List, Tuple
 
 from data import get_data
-from heuristics import WANN, get_heuristica    # TODO: Alterar a chamada aqui
-from regressors.regressors import get_estimator
+from heuristics import WANN, get_heuristic
+from util.regressors.regressors import get_estimator
 from wavelet_ml_config import config, get_positions,get_filters,get_models,get_params
 
 if not sys.warnoptions:
@@ -97,7 +97,7 @@ def create_dataset_modified(data: pd.DataFrame, lookback: int, forecast: int):
     """
     Creates a dataset for supervised learning from a time series.
 
-    Given a time series, it generates input sequences of length `lookback`
+    Given a time series, iteractions generates input sequences of length `lookback`
     and corresponding target values at a `forecast` step ahead.
 
     Args:
@@ -686,17 +686,17 @@ def wann(cfg, *args):
     return results
 
 
-def evolution(evo):
+def evolution(generations):
     """
     Converts a list of configuration vectors into a summarized pandas DataFrame.
 
-    Each configuration vector in `evo` contains settings for a model or experiment,
+    Each configuration vector in `generations` contains settings for a model or experiment,
     including wavelet usage, wavelet filter, look-back window, estimator type,
     hyperparameters, and a performance metric. This function extracts these values,
     resolves the filter and estimator names, and formats the results into a DataFrame.
 
     Args:
-        evo (list of array-like): List of configuration vectors. Each vector should include:
+        generations (list of array-like): List of configuration vectors. Each vector should include:
             - cfg[0]: wavelet usage flag (0 or 1)
             - cfg[1]: wavelet filter index
             - cfg[2]: look-back window
@@ -715,12 +715,12 @@ def evolution(evo):
             - 'métrica': Performance metric associated with the configuration
 
     Example:
-        >>> evo = [[1, 2, 10, 3, 0, 0.01, 100, 0.85], [0, 0, 5, 1, 1, 0.1, 50, 0.78]]
-        >>> df_summary = evolution(evo)
+        >>> generations = [[1, 2, 10, 3, 0, 0.01, 100, 0.85], [0, 0, 5, 1, 1, 0.1, 50, 0.78]]
+        >>> df_summary = evolution(generations)
         >>> print(df_summary.head())
     """
     df = []
-    for cfg in evo:
+    for cfg in generations:
     
         wavelet = round(cfg[0])
         
@@ -763,7 +763,7 @@ def evolution(evo):
 # =============================================================================
 # 
 # =============================================================================
-def main(run, df, heuristic,forecast,idx,pop,it,tg,tempo):
+def main(run, df, heuristic,forecast,idx,population,iteractions,target_value,time_scale):
     """
     Executes a single run of a Wavelet-Augmented Neural Network (WANN) 
     optimization using a specified heuristic, evaluates performance, 
@@ -786,10 +786,10 @@ def main(run, df, heuristic,forecast,idx,pop,it,tg,tempo):
         heuristic (str): Name of the heuristic optimization method to apply.
         forecast (int): Forecast horizon (number of steps ahead to predict).
         idx (int): Index of the experiment, used in logging.
-        pop (int): Population size for the heuristic algorithm.
-        it (int): Number of iterations/generations for the heuristic.
-        tg (float): Termination threshold or goal for the heuristic.
-        tempo (str): Temporal identifier used for file naming and logging.
+        population (int): Population size for the heuristic algorithm.
+        iteractions (int): Number of iterations/generations for the heuristic.
+        target_value (float): Termination threshold or goal for the heuristic.
+        time_scale (str): Temporal identifier used for file naming and logging.
 
     Returns:
         None: Results are saved to a pickle file in the directory
@@ -800,7 +800,7 @@ def main(run, df, heuristic,forecast,idx,pop,it,tg,tempo):
         - Errors encountered during execution with traceback formatting.
 
     Example:
-        >>> main(run=1, df=df, heuristic='GA', forecast=1, idx=0, pop=50, it=100, tg=0.01, tempo='daily')
+        >>> main(run=1, df=df, heuristic='GA', forecast=1, idx=0, population=50, iteractions=100, target_value=0.01, time_scale='daily')
     """
     np.random.seed(run)
     
@@ -820,13 +820,13 @@ def main(run, df, heuristic,forecast,idx,pop,it,tg,tempo):
             
         _start = time.perf_counter()
         
-        lower_bounds, upper_bounds  = config(forecast,tempo)
+        lower_bounds, upper_bounds  = config(forecast,time_scale)
         
         args = (df, forecast, False)
         
         obj = WANN(args, wann, lower_bounds, upper_bounds)
     
-        mh,evo = get_heuristica(heuristic, obj.fitness, lower_bounds,upper_bounds,pop,it,tg)   # TODO: Alterar aqui
+        mh, evo = get_heuristic(heuristic, obj.fitness, lower_bounds,upper_bounds,population,iteractions,target_value)
         evo = evolution(evo)
     
         results=wann(mh, df, forecast, True)
@@ -844,7 +844,7 @@ def main(run, df, heuristic,forecast,idx,pop,it,tg,tempo):
         
         results["heuristic"] = heuristic
         
-        results["heuristic evo"] = evo
+        results["heuristic evolution"] = evo
                 
         path = f'./pkl/{DATABASE}/{heuristic}/'
         
@@ -859,7 +859,7 @@ def main(run, df, heuristic,forecast,idx,pop,it,tg,tempo):
                 "_DATABASE_" + \
                 df.columns[0] +\
                 "_" + \
-                tempo +"_"\
+                time_scale +"_"\
                 + heuristic +\
                 "_" +time.strftime("%Y_%m_%d_%Hh_%Mm_%S") +'.pkl'
         
@@ -935,13 +935,13 @@ if __name__ == "__main__":
 #     -> "monthly"
 # =============================================================================
     
-    TEMPO = "diario"  # TODO: Precisa alterar essa variável aqui 
+    TIME_SCALE = "daily" 
     
     df_list = []
     
-    for k in DATABASE.keys():
+    for key in DATABASE.keys():
         
-        df_list.extend(get_data(k,DATABASE[k],TEMPO))
+        df_list.extend(get_data(key, DATABASE[key], TIME_SCALE))
     
     heuristics = [
                     # "fda",
@@ -953,34 +953,34 @@ if __name__ == "__main__":
                     # "ga"
                   ]
      
-    POP = 70
+    POPULATION = 70
     
-    ITER = 150
+    ITERACTIONS = 150
     
     TARGET_VALUE = 1
     
     N_JOBS = 3
     
-    pool = list(itertools.product(range(RUNS),df_list, heuristics, FORECAST))
+    pool = list(itertools.product(range(RUNS), df_list, heuristics, FORECAST))
     
     if N_JOBS == 1:
         
         for i, (run,df, heuristic, forecast) in enumerate(pool):
         
-            main(run, df, heuristic,forecast,i,POP,ITER,TARGET_VALUE,TEMPO)
+            main(run, df, heuristic, forecast, i, POPULATION, ITERACTIONS, TARGET_VALUE, TIME_SCALE)
         
     else:
         
         with concurrent.futures.ThreadPoolExecutor(max_workers=N_JOBS) as executor:
             
-            for i, (run,df, heuristic, forecast) in enumerate(pool):
+            for i, (run, df, heuristic, forecast) in enumerate(pool):
                 
-                executor.submit(main, run, df, heuristic,forecast,i,POP,ITER,TARGET_VALUE,TEMPO)
+                executor.submit(main, run, df, heuristic, forecast, i, POPULATION, ITERACTIONS, TARGET_VALUE, TIME_SCALE)
                 
         # with concurrent.futures.ProcessPoolExecutor(max_workers=N_JOBS) as executor:
         #     futures = []
         #     for i, (run,df, heuristic, forecast) in enumerate(pool):
-        #         executor.submit(main, run, df, heuristic,forecast,i,POP,ITER,TARGET_VALUE,TEMPO)
+        #         executor.submit(main, run, df, heuristic,forecast,i,POPULATION,ITERACTIONS,TARGET_VALUE,TIME_SCALE)
         
             # Waits for all tasks to complete
             # for future in concurrent.futures.as_completed(futures):
