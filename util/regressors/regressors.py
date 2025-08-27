@@ -63,7 +63,34 @@ def get_estimator(bounds, param_names, estimator_name):
 
     return model
 
+# TODO -> Verify if this function is better
+'''
+def get_estimator(bounds, param_names, estimator_name):
+    # name dictionary → import from class
+    estimators = {
+        "MLP_Single": lambda: __import__(".mlp_regressor", fromlist=["MLP"]).MLP,
+        "MLP_Multi":  lambda: __import__(".mlp_regressor", fromlist=["MLP"]).MLP,
+        "XGB":        lambda: __import__(".xgb_regressor", fromlist=["XGB"]).XGB,
+        "LSTM":       lambda: __import__(".lstm_regressor", fromlist=["LSTM_R"]).LSTM_R,
+        "CONV_LSTM":  lambda: __import__(".conv_lstm_regressor", fromlist=["CONV_LSTM"]).CONV_LSTM,
+        "SVR":        lambda: __import__(".svr_regressor", fromlist=["SVR"]).SVR,
+        "LSSVR":      lambda: __import__(".lssvr_regressor_ver2", fromlist=["LSSVR"]).LSSVR,
+        "ELM":        lambda: __import__(".elm_regressor", fromlist=["ELM"]).ELM,
+        "ELM2":       lambda: __import__(".elm_regressor_ver2", fromlist=["ELM"]).ELM,
+        "KNN":        lambda: __import__(".knn_regressor", fromlist=["KNN"]).KNN,
+        "LASSO":      lambda: __import__(".linear.lasso_regressor", fromlist=["LassoModel"]).LassoModel,
+        "RIDGE":      lambda: __import__(".linear.ridge_regressor", fromlist=["RidgeModel"]).RidgeModel,
+        "LINEAR":     lambda: __import__(".linear.linear_regressor", fromlist=["LinearModel"]).LinearModel,
+        "ELASTIC_NET":lambda: __import__(".linear.elastic_net_regressor", fromlist=["ElasticNetModel"]).ElasticNetModel,
+    }
 
+    try:
+        estimator_class = estimators[estimator_name]()  # get the class
+        return estimator_class(bounds=bounds, param_names=param_names)
+    except KeyError:
+        raise ValueError(f"{estimator_name} not defined")
+'''
+    
 def dict_to_arrays(d):
 
     keys = list(d.keys())
