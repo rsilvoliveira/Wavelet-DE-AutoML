@@ -44,7 +44,7 @@ def get_heuristic(name: str, function, lower_bounds: List, upper_bounds: List,po
         }
         
     elif name == "de":
-        from util.heuristicas import differential_evolution as meta
+        from util.heuristics import differential_evolution as meta
         parameters = {
             'n': population,
             'min_values': lower_bounds,
@@ -58,7 +58,7 @@ def get_heuristic(name: str, function, lower_bounds: List, upper_bounds: List,po
         }
 
     elif name == "gwo":
-        from util.heuristicas import grey_wolf_optimizer as meta
+        from util.heuristics import grey_wolf_optimizer as meta
         parameters = {
             'pack_size': population,
             'min_values': lower_bounds,
@@ -70,7 +70,7 @@ def get_heuristic(name: str, function, lower_bounds: List, upper_bounds: List,po
         }
 
     elif name == "cso":
-        from util.heuristicas import chicken_swarm_optimization as meta
+        from util.heuristics import chicken_swarm_optimization as meta
         parameters = {
             'size': population,
             'min_values': lower_bounds,
@@ -85,7 +85,7 @@ def get_heuristic(name: str, function, lower_bounds: List, upper_bounds: List,po
         }
 
     elif name == "sa":
-        from util.heuristicas import simulated_annealing as meta
+        from util.heuristics import simulated_annealing as meta
         parameters = {
             'min_values': lower_bounds,
             'max_values': upper_bounds,
@@ -101,7 +101,7 @@ def get_heuristic(name: str, function, lower_bounds: List, upper_bounds: List,po
         }
 
     elif name == "ga":
-        from util.heuristicas import genetic_algorithm as meta
+        from util.heuristics import genetic_algorithm as meta
         parameters = {
             'population_size': population,
             'min_values': lower_bounds,
@@ -117,7 +117,7 @@ def get_heuristic(name: str, function, lower_bounds: List, upper_bounds: List,po
         }
 
     elif name == "igwo":
-        from util.heuristicas import improved_grey_wolf_optimizer as meta
+        from util.heuristics import improved_grey_wolf_optimizer as meta
         parameters = {
             'pack_size': population,
             'min_values': lower_bounds,
@@ -129,7 +129,7 @@ def get_heuristic(name: str, function, lower_bounds: List, upper_bounds: List,po
         }
 
     elif name == "fda":
-        from util.heuristicas import flow_direction_algorithm as meta
+        from util.heuristics import flow_direction_algorithm as meta
         parameters = {
             'size': population,
             'min_values': lower_bounds,
