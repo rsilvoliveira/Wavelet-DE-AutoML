@@ -171,7 +171,7 @@ def get_positions(estimator):
         # Calculates the starting position considering the keys of the previous groups
         initial_position = 0
         for key in external_keys[:external_keys.index(estimator)]:
-            initial_position += len(MODELS[key])  # Soma a quantidade de chaves de cada dicionário anterior
+            initial_position += len(MODELS[key])  # Sums the number of keys from each previous dictionary
         
         # Generates a list of positions
         positions = [initial_position + i for i in range(len(MODELS[estimator]))]
@@ -209,5 +209,5 @@ if __name__ == "__main__":
     # idx = [i + 4 for i in idx]
     
     model = get_models(0)
-    filtro = get_filters(0)
+    filtro = get_filters(0)       # TODO: Alterar aqui o nome
     params = get_params(model)

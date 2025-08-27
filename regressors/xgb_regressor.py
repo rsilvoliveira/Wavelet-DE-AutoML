@@ -12,7 +12,7 @@ import xgboost as xgb
 
 class XGB(BaseEstimator, RegressorMixin):
     def __init__(self, bounds=None, param_names=None):
-        # Inicializa com os parâmetros fornecidos
+        # Initializes with the provided parameters
         self.bounds = bounds
         self.param_names = param_names
         self.model = None
@@ -23,18 +23,18 @@ class XGB(BaseEstimator, RegressorMixin):
         
         # from .regressors import device
 
-        # Converte os parâmetros para um dicionário
+        # Converts the parameters to a dictionary
         params_dict = {self.param_names[i]: self.bounds[i]
                        for i in range(len(self.param_names))}
         
-        # Arredonda os parâmetros apropriados
+        # Rounds the appropriate parameters
         params_dict["max_depth"] = round(params_dict["max_depth"])
         params_dict["n_estimators"] = round(params_dict["n_estimators"])
         params_dict["rounds"] = round(params_dict["rounds"])
         
-        # Define parâmetros específicos do XGBoost
+        # Defines XGBoost-specific parameters
         # params_dict["device"] = device()
-        # params_dict["device"] = "cpu"  # Assume que o dispositivo é CPU; ajuste se necessário
+        # params_dict["device"] = "cpu"  # Assumes the device is CPU; adjust if necessary
         params_dict["tree_method"] = "hist"
         params_dict["eval_metric"] = "rmse"
         params_dict["objective"] = "reg:squarederror"
@@ -42,13 +42,13 @@ class XGB(BaseEstimator, RegressorMixin):
         return params_dict
 
     def fit(self, X, y):
-        # Converte os parâmetros e ajusta o modelo
+        # Converts the parameters and fits the model
         params_dict = self._convert_params()
         
-        xgb.set_config(verbosity=0)  # Silencia logs
+        xgb.set_config(verbosity=0)  # Silences logs
         
         dtrain = xgb.DMatrix(X, label=y)
-        num_rounds = params_dict.pop("rounds", 10)  # Use um valor padrão se "rounds" não estiver presente
+        num_rounds = params_dict.pop("rounds", 10)  # Use a default value if "rounds" is not present
         
         self.model = xgb.train(params_dict, dtrain, num_rounds)
         
@@ -74,20 +74,20 @@ class XGB(BaseEstimator, RegressorMixin):
         # return cmape(y, y_pred) * 100
         return rmse
 
-# Exemplo de uso
+#  Example of use
 if __name__ == "__main__":
     from sklearn.model_selection import train_test_split
     from sklearn.datasets import make_regression
     
-    # Gerar dados de exemplo
+    # Generate sample data
     X, y = make_regression(n_samples=100, n_features=5, noise=0.1)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
     
-    # Parâmetros de exemplo
-    bounds = [5, 100, 10]  # Exemplo de valores para cada parâmetro
+    # Example parameters
+    bounds = [5, 100, 10]  # Example of values for each parameter
     param_names = ['max_depth', 'n_estimators', 'rounds']
     
-    # Instanciar e usar o modelo
+    # Instantiate and use the model
     model = XGB(bounds=bounds, param_names=param_names)
     model.fit(X_train, y_train)
     predictions = model.predict(X_test)

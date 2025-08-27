@@ -30,7 +30,7 @@ from termcolor import colored
 from typing import List, Tuple
 
 from data import get_data
-from heuristics import WANN, get_heuristica
+from heuristics import WANN, get_heuristica    # TODO: Alterar a chamada aqui
 from regressors.regressors import get_estimator
 from wavelet_ml_config import config, get_positions,get_filters,get_models,get_params
 
@@ -804,15 +804,15 @@ def main(run, df, heuristic,forecast,idx,pop,it,tg,tempo):
     """
     np.random.seed(run)
     
-    logger.info(colored(f'{idx:02d} Iniciando ',
+    logger.info(colored(f'{idx:02d} Starting ',
                         'blue',
                         attrs=["bold"]) + 
                 heuristic.upper().rjust(4) + 
                 " RUN " + 
                 str(run) + 
-                " Estação: " + 
+                " Station: " + 
                 str(df.columns[0]) + 
-                " Horizonte: " + 
+                " Horizon: " + 
                 str(forecast) + 
                 " - " + 
                 str(dt.datetime.now()))
@@ -826,15 +826,13 @@ def main(run, df, heuristic,forecast,idx,pop,it,tg,tempo):
         
         obj = WANN(args, wann, lower_bounds, upper_bounds)
     
-        mh,evo = get_heuristica(heuristic, obj.fitness, lower_bounds,upper_bounds,pop,it,tg)
+        mh,evo = get_heuristica(heuristic, obj.fitness, lower_bounds,upper_bounds,pop,it,tg)   # TODO: Alterar aqui
         evo = evolution(evo)
     
         results=wann(mh, df, forecast, True)
         
-        # TODO: Traduzir
-
         if results == np.inf:
-            raise ValueError("Heuristica não encontrou resultado!")
+            raise ValueError("Heuristic did not find a result!")
         
         results["est"] = df.columns[0]
         
@@ -868,13 +866,13 @@ def main(run, df, heuristic,forecast,idx,pop,it,tg,tempo):
         with open(file, 'wb') as f:
             pickle.dump(results,f)
                 
-        logger.info(colored(f'{idx:02d} Terminando',
+        logger.info(colored(f'{idx:02d} Finished',
                             'green',
                             attrs=["bold"]) + 
                     f'{heuristic.upper().rjust(4)}' + 
-                    " Estação: " + 
+                    " Station: " + 
                     df.columns[0] + 
-                    " Horizonte: " + 
+                    " Horizon: " + 
                     str(forecast) + 
                     " MAPE: " + 
                     str(round(results["mape"], 4)) + 
@@ -888,13 +886,13 @@ def main(run, df, heuristic,forecast,idx,pop,it,tg,tempo):
         error = str(error)
         error = "\t" + error.replace("\n", "\n\t")
         
-        logger.error(colored(f'{idx:02d} ERRO',
+        logger.error(colored(f'{idx:02d} ERROR',
                              'red',
                              attrs=["bold"]) + 
                      f'{heuristic.upper().rjust(4)}' + 
-                     " Estação: " + 
+                     " Station: " + 
                      df.columns[0] + 
-                     " Horizonte: " + 
+                     " Horizon: " + 
                      str(forecast) + 
                      "\n" +
                      colored(error, 'yellow', attrs=["bold"]))
@@ -931,13 +929,13 @@ if __name__ == "__main__":
             }
     
 # =============================================================================
-#     TEMPO choices:
-#     -> "horario"
-#     -> "diario"
-#     -> "mensal"
+#     TIME_SCALE choices:
+#     -> "hourly"
+#     -> "daily"
+#     -> "monthly"
 # =============================================================================
     
-    TEMPO = "diario"
+    TEMPO = "diario"  # TODO: Precisa alterar essa variável aqui 
     
     df_list = []
     
@@ -984,8 +982,8 @@ if __name__ == "__main__":
         #     for i, (run,df, heuristic, forecast) in enumerate(pool):
         #         executor.submit(main, run, df, heuristic,forecast,i,POP,ITER,TARGET_VALUE,TEMPO)
         
-            # Aguarda a conclusão de todas as tarefas
+            # Waits for all tasks to complete
             # for future in concurrent.futures.as_completed(futures):
-            #     future.result()  # Captura possíveis exceções
+            #     future.result()  # Catches possible exceptions
             
         

@@ -585,8 +585,7 @@ References
 from abc import ABCMeta, abstractmethod
 
 import numpy as np
-from scipy.linalg import pinv      ### trocado pinv2 por pinv atualizacao de versoes
-
+from scipy.linalg import pinv      ### changed pinv2 to pinv due to version update
 from sklearn.utils import as_float_array
 from sklearn.utils.extmath import safe_sparse_dot
 from sklearn.base import BaseEstimator, ClassifierMixin, RegressorMixin
@@ -1227,7 +1226,7 @@ class GELMRegressor(BaseELM, RegressorMixin,):
         or supplied regressor
         """
         if (self.regressor is None):
-            self.coefs_ = safe_sparse_dot(pinv(self.hidden_activations_), y) #alteracao da versao do scipy trocado pinv2 por pinv
+            self.coefs_ = safe_sparse_dot(pinv(self.hidden_activations_), y) # change in scipy version, changed pinv2 to pinv
         else:
             self.regressor.fit(self.hidden_activations_, y)
 
@@ -1351,7 +1350,7 @@ class GELMRegressor(BaseELM, RegressorMixin,):
 #    	'n_hidden':[10, 20, 30, 40, 50, 80, 100],
 #    	'rbf_width':[1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1],
 #    	'activation_func':['rbf'],
-#    	#'regressor':[Ridge(alpha=1e-5), ] # ideia: usar ELN com gridsearch
+#    	#'regressor':[Ridge(alpha=1e-5), ] #  idea: use ELN with gridsearch
 #          },
 #        ],
 #      ),
@@ -1363,7 +1362,7 @@ class GELMRegressor(BaseELM, RegressorMixin,):
 #          {
 #    	'n_hidden':[10, 20, 30, 40, 50, 80, 100],
 #    	'activation_func':['tanh', 'relu', 'sigmoid', 'multiquadric', 'inv_multiquadric'],
-#    	#'regressor':[Ridge(alpha=1e-5), ] # ideia: usar ELN com gridsearch
+#    	#'regressor':[Ridge(alpha=1e-5), ] #  idea: use ELN with gridsearch
 #          },
 #        ],
 #      ),

@@ -13,7 +13,7 @@ from threadpoolctl import threadpool_limits
 class MLP(BaseEstimator, RegressorMixin):
 
     def __init__(self, bounds=None, param_names=None):
-        # Parâmetros padrão para a classe
+        # Default parameters for the class
         self.bounds = bounds
         self.param_names = param_names
         self.model = None
@@ -23,7 +23,7 @@ class MLP(BaseEstimator, RegressorMixin):
             raise ValueError(
                 "param_names and bounds must be set before fitting the model.")
 
-        # Converta os parâmetros para um dicionário
+        # Converts the parameters to a dictionary
         params_dict = {self.param_names[i]: self.bounds[i]
                        for i in range(len(self.param_names))}
 
@@ -58,9 +58,9 @@ class MLP(BaseEstimator, RegressorMixin):
         return params_dict
 
     def fit(self, X, y):
-        # Converte os parâmetros e ajusta o modelo
+        # Converts the parameters and fits the model
         params_dict = self._convert_params()
-        with threadpool_limits(limits=1):  # Limita as CPUs
+        with threadpool_limits(limits=1):  # Limits the CPUs
             self.model = MLPRegressor(**params_dict)
             self.model.fit(X, y)
         return self
@@ -89,16 +89,16 @@ if __name__ == "__main__":
     from sklearn.model_selection import train_test_split
     from sklearn.datasets import make_regression
 
-    # Gerar dados de exemplo
+    # Generate sample data
     X, y = make_regression(n_samples=100, n_features=5, noise=0.1)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-    # Parâmetros de exemplo
-    bounds = [1, 2, 10, 5, 3]  # Exemplo de valores para cada parâmetro
+    # Example parameters
+    bounds = [1, 2, 10, 5, 3]  # Example of values for each parameter
     param_names = ['solver', 'activation',
                    'hidden_layer_sizes', '2layer', '3layer']
 
-    # Instanciar e usar o modelo
+    # Instantiate and use the model
     model = MLP(bounds=bounds, param_names=param_names)
     model.fit(X_train, y_train)
     predictions = model.predict(X_test)

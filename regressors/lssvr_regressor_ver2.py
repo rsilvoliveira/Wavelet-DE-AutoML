@@ -47,8 +47,8 @@ class LSSVR(BaseEstimator, RegressorMixin):
 
     """
     def __init__(self, bounds=[2,1,None], param_names=['C','kernel','gamma']):
-        # Inicializa com os parâmetros fornecidos
-        
+        # Initializes with the provided parameters
+
         self.bounds = bounds
         self.param_names = param_names
         self.model = None
@@ -61,24 +61,24 @@ class LSSVR(BaseEstimator, RegressorMixin):
     def _convert_params(self):
         if self.param_names is None or self.bounds is None:
             raise ValueError("param_names and bounds must be set before fitting the model.")
-        
-        # Converte os parâmetros para um dicionário
+
+        # Converts the parameters to a dictionary
         params_dict = {self.param_names[i]: self.bounds[i]
                        for i in range(len(self.param_names))}
-        
-        # Arredonda os parâmetros apropriados
+
+        # Rounds the appropriate parameters
         integer_par = ['kernel']
         for k in integer_par:
             params_dict[k] = round(params_dict[k])
-        
-        # Mapeia o valor de kernel para o nome correspondente
+
+        # Maps the kernel value to the corresponding name
         kernel = {0: 'linear',
                   1: 'poly',
                   2: 'rbf',
                   }
-        
-        params_dict["kernel"] = kernel.get(params_dict["kernel"], 'rbf')  # Default para 'rbf'
-        
+
+        params_dict["kernel"] = kernel.get(params_dict["kernel"], 'rbf')  # Default to 'rbf'
+
         self.C = params_dict["C"]
         self.kernel = params_dict["kernel"]
         if 'gamma' in self.param_names:
@@ -206,22 +206,22 @@ class LSSVR(BaseEstimator, RegressorMixin):
         return np.sqrt(np.sum(np.diag(W)))
     
     
-# Exemplo de uso
+# Example of use
 if __name__ == "__main__":
     from sklearn.model_selection import train_test_split, cross_val_score
     from sklearn.datasets import make_regression
-    
-    # Gerar dados de exemplo
+
+    # Generate sample data
     X, y = make_regression(n_samples=100, n_features=5, noise=0.1)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-    
-    # Parâmetros de exemplo
-    bounds = [4, 2]  # Exemplo de valores para cada parâmetro
+
+    # Example parameters
+    bounds = [4, 2]  # Example of values for each parameter
     param_names = ['kernel', 'C']
-    
-    # Instanciar e usar o modelo
+
+    # Instantiate and use the model
     model = LSSVR(bounds=bounds, param_names=param_names)
-    # Calcular o score usando cross_val_score
+    # Calculate the score using cross_val_score
     score = cross_val_score(model, X_train, y_train, cv=5)
     # model.fit(X_train, y_train)
     # predictions = model.predict(X_test)

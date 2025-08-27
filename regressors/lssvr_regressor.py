@@ -18,7 +18,7 @@ from scipy.sparse import linalg
 class LSSVR(BaseEstimator, RegressorMixin):
    
     def __init__(self, bounds=None, param_names=None):
-       # Inicializa com os parâmetros fornecidos
+       # Initializes with the provided parameters
        self.bounds = bounds
        self.param_names = param_names
        self.model = None
@@ -32,22 +32,22 @@ class LSSVR(BaseEstimator, RegressorMixin):
     def _convert_params(self):
         if self.param_names is None or self.bounds is None:
             raise ValueError("param_names and bounds must be set before fitting the model.")
-        
-        # Converte os parâmetros para um dicionário
+
+        # Converts the parameters to a dictionary
         params_dict = {self.param_names[i]: self.bounds[i]
                        for i in range(len(self.param_names))}
-        
-        # Arredonda os parâmetros apropriados
+
+        # Rounds the appropriate parameters
         integer_par = ['kernel']
         for k in integer_par:
             params_dict[k] = round(params_dict[k])
-        
-        # Mapeia o valor de kernel para o nome correspondente
+
+        # Maps the kernel value to the corresponding name
         kernel = {0: 'linear',
                   1: 'rbf',
                   2: 'matern'}
-        
-        params_dict["kernel"] = kernel.get(params_dict["kernel"], 'rbf')  # Default para 'rbf'
+
+        params_dict["kernel"] = kernel.get(params_dict["kernel"], 'rbf')  # Default to 'rbf'
         
         self.C = params_dict['C']
         self.kernel = params_dict['kernel']
@@ -56,7 +56,7 @@ class LSSVR(BaseEstimator, RegressorMixin):
         return params_dict
     
     def fit(self, X, y):
-        # Converte os parâmetros e ajusta o modelo
+        # Converts the parameters and fits the model
         self._convert_params()
         
         if type(self.idxs) == type(None):
@@ -140,16 +140,15 @@ if __name__ == "__main__":
     from sklearn.model_selection import train_test_split
     from sklearn.datasets import make_regression
 
-    # Gerar dados de exemplo
+    # Generate sample data
     X, y = make_regression(n_samples=100, n_features=5, noise=0.1)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
-    # Parâmetros de exemplo
-    # Parâmetros de exemplo
-    bounds = [4, 2, 0.1]  # Exemplo de valores para cada parâmetro
+    # Example parameters
+    bounds = [4, 2, 0.1]  # Example of values for each parameter
     param_names = ['kernel', 'C', "gamma"]
 
-    # Instanciar e usar o modelo
+    # Instantiate and use the model
     model = LSSVR(bounds=bounds, param_names=param_names)
     model.fit(X_train, y_train)
     predictions = model.predict(X_test)

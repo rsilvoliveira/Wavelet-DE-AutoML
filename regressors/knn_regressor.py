@@ -11,7 +11,7 @@ from sklearn.neighbors import KNeighborsRegressor as knn
 
 class KNN(BaseEstimator, RegressorMixin):
     def __init__(self, bounds=None, param_names=None):
-        # Inicializa com os parâmetros fornecidos
+        # Initializes with the provided parameters
         self.bounds = bounds
         self.param_names = param_names
         self.model = None
@@ -19,17 +19,17 @@ class KNN(BaseEstimator, RegressorMixin):
     def _convert_params(self):
         if self.param_names is None or self.bounds is None:
             raise ValueError("param_names and bounds must be set before fitting the model.")
-        
-        # Converte os parâmetros para um dicionário
+
+        # Converts the parameters to a dictionary
         params_dict = {self.param_names[i]: self.bounds[i]
                        for i in range(len(self.param_names))}
-        
-        # Arredonda os parâmetros apropriados
+
+        # Rounds the appropriate parameters
         integer_par = ['n_neighbors', 'weights','algorithm','leaf_size']
         for k in integer_par:
             params_dict[k] = round(params_dict[k])
-        
-        # Mapeia o valor de weights para o nome correspondente
+
+        # Maps the weights value to the corresponding name
         weights = {0: 'uniform',
                   1: 'distance',
                   }
@@ -46,7 +46,7 @@ class KNN(BaseEstimator, RegressorMixin):
         return params_dict
     
     def fit(self, X, y):
-        # Converte os parâmetros e ajusta o modelo
+        # Converts the parameters and fits the model
         params_dict = self._convert_params()
         
         self.model = knn(**params_dict)
@@ -73,31 +73,31 @@ class KNN(BaseEstimator, RegressorMixin):
         # return cmape(y, y_pred) * 100
         return rmse
 
-# Exemplo de uso
+# Example of use
 if __name__ == "__main__":
     from sklearn.model_selection import train_test_split, cross_val_score
     from sklearn.datasets import make_regression
-    
-    # Gerar dados de exemplo
+
+    # Generate sample data
     X, y = make_regression(n_samples=100, n_features=5, noise=0.1)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-    
-    # Parâmetros de exemplo
+
+    # Example parameters
     bounds = [5,
               0,
               0,
               30,
-              2]  # Exemplo de valores para cada parâmetro
+              2]  # Example of values for each parameter
     param_names = ['n_neighbors',
                    'weights',
                    'algorithm',
                    'leaf_size',
                    'p',
                    ]
-    
-    # Instanciar e usar o modelo
+
+    # Instantiate and use the model
     model = KNN(bounds=bounds, param_names=param_names)
-    # Calcular o score usando cross_val_score
+    # Calculate the score using cross_val_score
     score = cross_val_score(model, X_train, y_train, cv=5)
     model.fit(X_train, y_train)
     predictions = model.predict(X_test)

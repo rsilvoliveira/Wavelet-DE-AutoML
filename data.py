@@ -42,7 +42,7 @@ if __name__ == '__main__':
     database ="10_est"
     files=["58880001","58235100"]
     
-    # database="bacias"
-    # files=["PARAIBA DO SUL ANTA","PARAIBA DO SUL FUNIL"]
-    
+    # database="bacias"                                        #TODO: Alterar ou remover isso aqui
+    # files=["PARAIBA DO SUL ANTA","PARAIBA DO SUL FUNIL"]     #TODO: Alterar ou remover isso aqui
+
     df=get_data(database,files,"daily")

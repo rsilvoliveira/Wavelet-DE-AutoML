@@ -26,11 +26,11 @@ class WANN:
         return self.result
     
 
-def get_heuristica(name, fun, lb, ub,pop,it,TARGET_VALUE = None):
+def get_heuristica(name, fun, lb, ub,pop,it,TARGET_VALUE = None):    #TODO: Alterar aqui o nome
 
     if name == "pso":
         from pyMetaheuristic.algorithm import particle_swarm_optimization as meta
-        # from util.heuristicas import particle_swarm_optimization as meta
+        # from util.heuristicas import particle_swarm_optimization as meta      #TODO: Alterar ou remover isso aqui 
         parameters = {
             'swarm_size': pop,
             'min_values': lb,
@@ -47,8 +47,8 @@ def get_heuristica(name, fun, lb, ub,pop,it,TARGET_VALUE = None):
         
     elif name == "de":
         from pyMetaheuristic.algorithm import differential_evolution as meta
-        # from util.heuristicas import differential_evolution as meta
-        # from util.heuristicas import diff_parallel as meta
+        # from util.heuristicas import differential_evolution as meta       #TODO: Alterar ou remover isso aqui
+        # from util.heuristicas import diff_parallel as meta                #TODO: Alterar ou remover isso aqui
         parameters = {
             'n': pop,
             'min_values': lb,
@@ -75,7 +75,7 @@ def get_heuristica(name, fun, lb, ub,pop,it,TARGET_VALUE = None):
 
     elif name == "cso":
         from pyMetaheuristic.algorithm import chicken_swarm_optimization as meta
-        # from util.heuristicas import chicken_swarm_optimization as meta
+        # from util.heuristicas import chicken_swarm_optimization as meta              #TODO: Alterar ou remover isso aqui
         parameters = {
             'size': pop,
             'min_values': lb,
@@ -91,7 +91,7 @@ def get_heuristica(name, fun, lb, ub,pop,it,TARGET_VALUE = None):
 
     elif name == "sa":
         from pyMetaheuristic.algorithm import simulated_annealing as meta
-        # from util.heuristicas import simulated_annealing as meta
+        # from util.heuristicas import simulated_annealing as meta                #TODO: Alterar ou remover isso aqui
         parameters = {
             'min_values': lb,
             'max_values': ub,
@@ -108,7 +108,7 @@ def get_heuristica(name, fun, lb, ub,pop,it,TARGET_VALUE = None):
 
     elif name == "ga":
         from pyMetaheuristic.algorithm import genetic_algorithm as meta
-        # from util.heuristicas import genetic_algorithm as meta
+        # from util.heuristicas import genetic_algorithm as meta           #TODO: Alterar ou remover isso aqui
         parameters = {
             'population_size': pop,
             'min_values': lb,
@@ -124,8 +124,8 @@ def get_heuristica(name, fun, lb, ub,pop,it,TARGET_VALUE = None):
         }
 
     elif name == "igwo":
-        from pyMetaheuristic.algorithm import improved_grey_wolf_optimizer as meta
-        # from util.heuristicas import improved_grey_wolf_optimizer as meta
+        from pyMetaheuristic.algorithm import improved_grey_wolf_optimizer as meta 
+        # from util.heuristicas import improved_grey_wolf_optimizer as meta      #TODO: Alterar ou remover isso aqui
         parameters = {
             'pack_size': pop,
             'min_values': lb,
@@ -138,7 +138,7 @@ def get_heuristica(name, fun, lb, ub,pop,it,TARGET_VALUE = None):
 
     elif name == "fda":
         from pyMetaheuristic.algorithm import flow_direction_algorithm as meta
-        # from util.heuristicas import flow_direction_algorithm as meta
+        # from util.heuristicas import flow_direction_algorithm as meta            #TODO: Alterar ou remover isso aqui
         parameters = {
             'size': pop,
             'min_values': lb,

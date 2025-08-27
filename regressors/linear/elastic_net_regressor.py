@@ -12,7 +12,7 @@ from sklearn.metrics import mean_absolute_percentage_error
 
 class ElasticNetModel(BaseEstimator, RegressorMixin):
     def __init__(self, bounds=None, param_names=None):
-        # Inicializa com os parâmetros fornecidos
+        # Initializes with the provided parameters
         self.bounds = bounds
         self.param_names = param_names
         self.model = None
@@ -20,8 +20,8 @@ class ElasticNetModel(BaseEstimator, RegressorMixin):
     def _convert_params(self):
         if self.param_names is None or self.bounds is None:
             raise ValueError("param_names and bounds must be set before fitting the model.")
-        
-        # Converte os parâmetros para um dicionário
+
+        # Converts the parameters to a dictionary
         params_dict = {self.param_names[i]: self.bounds[i]
                        for i in range(len(self.param_names))}
         
@@ -36,10 +36,10 @@ class ElasticNetModel(BaseEstimator, RegressorMixin):
         return params_dict
     
     def fit(self, X, y):
-        # Converte os parâmetros e ajusta o modelo
+        # Converts the parameters and fits the model
         params_dict = self._convert_params()
-        
-        # Ajuste do modelo ElasticNet com parâmetros
+
+        # Fits the ElasticNet model with parameters
         self.model = ElasticNet(**params_dict)
         self.model.fit(X, y)
         
@@ -64,22 +64,22 @@ class ElasticNetModel(BaseEstimator, RegressorMixin):
         # return cmape(y, y_pred) * 100
         return rmse
 
-# Exemplo de uso
+# Example usage
 if __name__ == "__main__":
     import numpy as np
 
-    # Simular dados de janelas deslizantes
-    X = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])  # Exemplo de características de janelas
-    y = np.array([3, 6, 9])  # Exemplo de variável alvo
+    # Simulate sliding window data
+    X = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])  # Example sliding window features
+    y = np.array([3, 6, 9])  # Example target variable
 
-    # Definir limites e nomes de parâmetros para Elastic Net
-    bounds = [1.0, 0.5, 200, 1e-5, 0]  # Exemplo: alpha, l1_ratio e fit_intercept
+    # Define bounds and parameter names for Elastic Net
+    bounds = [1.0, 0.5, 200, 1e-5, 0]  # Example: alpha, l1_ratio and fit_intercept
     param_names = ['alpha', 'l1_ratio', 'max_iter', 'tol', 'selection']
 
-    # Inicializar e treinar o modelo
+    # Initialize and train the model
     model = ElasticNetModel(bounds=bounds, param_names=param_names)
     model.fit(X, y)
 
-    # Avaliar o modelo
+    # Evaluate the model
     mape = model.score(X, y)
     print(f'MAPE: {mape}')
