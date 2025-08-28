@@ -38,11 +38,14 @@ def get_data(database, files=None, time = 'daily'):
  
 
 if __name__ == '__main__':
+    "Example of how to use the function get_data"
     
-    database ="10_est"
+    "Databases available: basins, hydroelectric plants, stations"
+    
+    database ="stations"
     files=["58880001","58235100"]
     
-    # database="bacias"                                        #TODO: Alterar ou remover isso aqui
-    # files=["PARAIBA DO SUL ANTA","PARAIBA DO SUL FUNIL"]     #TODO: Alterar ou remover isso aqui
+    # database="basins"
+    # files=["PARAIBA DO SUL ANTA","PARAIBA DO SUL FUNIL"]
 
     df=get_data(database,files,"daily")
