@@ -25,10 +25,13 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ### Requirements
 
-Ensure you have the following installed:
+The following prerequisites are required to run the project:
 
 * **Python 3.10**
-* The required libraries can be found in the `requirements.txt` file. 
+* All other library dependencies are listed in the `requirements.txt` file.
+
+> [!NOTE]
+> It is highly recommended to create a dedicated virtual environment (e.g., Conda or venv) before installing the dependencies to avoid conflicts with other projects.
 
 ### Installation
 
