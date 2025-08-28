@@ -19,6 +19,7 @@ import datetime as dt
 import numpy as np
 import pandas as pd
 
+from datetime import timedelta
 from math import sqrt
 from pyextremes import EVA
 from sklearn.metrics import (r2_score,
@@ -846,7 +847,7 @@ def main(run, df, heuristic,forecast,idx,population,iteractions,target_value,tim
         
         results["heuristic evolution"] = evo
                 
-        path = f'./pkl/{DATABASE}/{heuristic}/'
+        path = f'./pkl/{df.columns[0]}/{heuristic}/'
         
         if not os.path.exists(path):
             os.makedirs(path) 
@@ -879,7 +880,7 @@ def main(run, df, heuristic,forecast,idx,population,iteractions,target_value,tim
                     " RMSE: " + 
                     str(round(results['rmse'], 4)) + 
                     " Time: " + 
-                    str(round((time.perf_counter() - _start), 4)))
+                    str(timedelta(seconds=time.perf_counter() - _start)))
         
     except Exception as error:
         
@@ -917,7 +918,7 @@ if __name__ == "__main__":
                 # 48,
                 ]
 
-    DATABASE = {"10_est" : ["58880001","58235100"],
+    DATABASE = {"stations" : ["58880001","58235100"],
                 # "mg"     : ["44200000","61024000","56610000","61135000","58535000"],
                 # "furnas" : ["FURNAS"],
                 # "bacias" : ["AMAZONAS DARDANELOS",
