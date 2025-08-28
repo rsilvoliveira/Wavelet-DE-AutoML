@@ -90,41 +90,53 @@ The repository is structured to separate data, configuration, and the core logic
     </li>
     <li>
         <details>
-            <summary><strong>regressors/</strong> - Implementation of the machine learning models.</summary>
+            <summary><strong>util/</strong> - Contains utility modules for heuristics and regressors.</summary>
             <ul>
-                <li><code>auto_ml.py</code></li>
-                <li><code>conv_lstm_regressor.py</code></li>
-                <li><code>ELM.py</code></li>
-                <li><code>elm_regressor.py</code></li>
-                <li><code>elm_regressor_ver2.py</code></li>
-                <li><code>__init__.py</code></li>
-                <li><code>knn_regressor.py</code></li>
                 <li>
                     <details>
-                        <summary><strong>linear/</strong></summary>
+                        <summary><strong>heuristics/</strong> - Implementations of metaheuristic algorithms.</summary>
                         <ul>
-                            <li><code>elastic_net_regressor.py</code></li>
-                            <li><code>lasso_regressor.py</code></li>
-                            <li><code>linear_regressor.py</code></li>
-                            <li><code>ridge_regressor.py</code></li>
+                            <li><code>chicken_so.py</code></li>
+                            <li><code>de.py</code></li>
+                            <li><code>fda.py</code></li>
+                            <li><code>ga.py</code></li>
+                            <li><code>gwo.py</code></li>
+                            <li><code>i_gwo.py</code></li>
+                            <li><code>__init__.py</code></li>
+                            <li><code>pso.py</code></li>
+                            <li><code>sa.py</code></li>
                         </ul>
                     </details>
                 </li>
-                <li><code>lssvr_regressor.py</code></li>
-                <li><code>lssvr_regressor_ver2.py</code></li>
-                <li><code>lstm_regressor.py</code></li>
-                <li><code>mlp_regressor.py</code></li>
-                <li><code>regressors.py</code></li>
-                <li><code>svr_regressor.py</code></li>
-                <li><code>xgb_regressor.py</code></li>
+                <li>
+                    <details>
+                        <summary><strong>regressors/</strong> - Implementation of the machine learning models.</summary>
+                        <ul>
+                            <li><code>auto_ml.py</code></li>
+                            <li><code>conv_lstm_regressor.py</code></li>
+                            <li><code>ELM.py</code></li>
+                            <li><code>elm_regressor.py</code></li>
+                            <li><code>elm_regressor_ver2.py</code></li>
+                            <li><code>__init__.py</code></li>
+                            <li><code>knn_regressor.py</code></li>
+                            <li><strong>linear/</strong></li>
+                            <li><code>lssvr_regressor.py</code></li>
+                            <li><code>lssvr_regressor_ver2.py</code></li>
+                            <li><code>lstm_regressor.py</code></li>
+                            <li><code>mlp_regressor.py</code></li>
+                            <li><code>regressors.py</code></li>
+                            <li><code>svr_regressor.py</code></li>
+                            <li><code>xgb_regressor.py</code></li>
+                        </ul>
+                    </details>
+                </li>
             </ul>
         </details>
     </li>
     <li><strong>data.py</strong> - Script for loading and preprocessing data.</li>
     <li><strong>heuristics.py</strong> - Wrapper for metaheuristic optimization algorithms.</li>
     <li><strong>main.py</strong> - Main entry point for running the optimization experiments.</li>
-    <li><strong>wavelet_ml_config.py</strong> - Defines the search space (models, parameters, wavelets).</li>
-    <li><strong>README.md</strong> - This documentation file.</li>
     <li><strong>requirements.txt</strong> - Lists all Python dependencies for the project.</li>
+    <li><strong>wavelet_ml_config.py</strong> - Defines the search space (models, parameters, wavelets).</li>
 </ul>
 </details>
