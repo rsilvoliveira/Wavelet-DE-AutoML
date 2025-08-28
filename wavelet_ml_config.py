@@ -209,5 +209,5 @@ if __name__ == "__main__":
     # idx = [i + 4 for i in idx]
     
     model = get_models(0)
-    filtro = get_filters(0)       # TODO: Alterar aqui o nome
+    filter = get_filters(0)
     params = get_params(model)
