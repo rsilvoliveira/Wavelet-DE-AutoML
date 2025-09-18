@@ -100,7 +100,7 @@ def create_dataset_modified(data, lookback, forecast):
     return np.array(X), np.array(y)
 
 
-def main(df,forecast,lag,time_scale,run):
+def main(df,forecast,look_back,time_scale,run):
 
     np.random.seed(run)
     
@@ -110,11 +110,11 @@ def main(df,forecast,lag,time_scale,run):
 
     train, test = train_test_split(df, test_size=0.2, shuffle=False)
 
-    Xtrain, Ytrain = create_dataset_modified(train, lag, forecast)
+    Xtrain, Ytrain = create_dataset_modified(train, look_back, forecast)
     
-    Xtest, Ytest = create_dataset_modified(test, lag, forecast)
+    Xtest, Ytest = create_dataset_modified(test, look_back, forecast)
 
-    resize = lag + forecast - 1
+    resize = look_back + forecast - 1
 
     date = test.iloc[resize:-1, :].index.values
 
@@ -168,34 +168,35 @@ def main(df,forecast,lag,time_scale,run):
     
     params = best_model_info["sklearn_regressor"].get_params()
     
-    results = {"station"                : df.columns[0],
-               "time"                   : time_scale,
-               "forecast"               : forecast,
-               "run"                    : run,
-               "wavelet"                : "Sklearn-AutoML",
-               "look_back"              : lag,
-               "model"                  : model_name,
-               "model_params"           : params,
-               "mape"                   : metrics.mean_absolute_percentage_error(Ytest, test_predictions) * 100,
-               "r2"                     : metrics.r2_score(Ytest, test_predictions),
-               "rmse"                   : sqrt(metrics.mean_absolute_error(Ytest, test_predictions)),
-               "mape_mean_he"           : None,
-               "mape_mean_le"           : None,
-               "wavelet_filter"         : None,
+    results = {'date'                   : date,
                "decomposition_level"    : None,
-               "Lj"                     : None,
+               "forecast"               : forecast,
+               "framework"              : "Sklearn-AutoML",
                "heuristic"              : None,
                "heuristic_evolution"    : None,
                "iteration"              : None,
+               "Lj"                     : None,
+               "look_back"              : look_back,
+               "mape"                   : metrics.mean_absolute_percentage_error(Ytest, test_predictions) * 100,
+               "mape_mean_he"           : None,
+               "mape_mean_le"           : None,
+               "model"                  : model_name,
+               "model_params"           : params,
+               "observed"               : Ytest, 
                "population"             : None,
                "predicted"              : test_predictions,
-               "observed"               : Ytest, 
-               'date'                   : date,
-               'train_time'             : dt.timedelta(seconds=_end_fit - _start_fit), 
+               "rmse"                   : sqrt(metrics.mean_absolute_error(Ytest, test_predictions)),
+               "run"                    : run,
+               'run_time'               : dt.timedelta(seconds=_end - _start),
+               "r2"                     : metrics.r2_score(Ytest, test_predictions),
+               "station"                : df.columns[0],
+               "time_scale"             : time_scale,
                'test_time'              : dt.timedelta(seconds=_end - _start_train), 
-               'train_predicted'        : train_predictions,
                'train_observed'         : Ytrain, 
-               'run_time'               : dt.timedelta(seconds=_end - _start)
+               'train_predicted'        : train_predictions,
+               'train_time'             : dt.timedelta(seconds=_end_fit - _start_fit), 
+               "wavelet"                : False,
+               "wavelet_filter"         : None,
                }
 
     results_t = {key: list([value]) for key, value in results.items()}
@@ -218,9 +219,9 @@ def main(df,forecast,lag,time_scale,run):
 
 # Function that runs each configuration
 def job_runner(cfg):
-    database, file, time_scale, forecast, lag ,run= cfg
+    database, file, time_scale, forecast, look_back ,run= cfg
     df_list = get_data(database, file, time_scale)  # search the data
-    main(df_list, forecast, lag,time_scale, run)    # performs processing
+    main(df_list, forecast, look_back,time_scale, run)    # performs processing
     
 
 if __name__ == "__main__":
@@ -259,7 +260,7 @@ if __name__ == "__main__":
             job_runner(config)
     else:
         with ThreadPoolExecutor(max_workers=workers) as executor:
-            futures = [executor.submit(job_runner, config) for config in CONFIG_RUNS[:2]]
+            futures = [executor.submit(job_runner, config) for config in CONFIG_RUNS]
        
            
     
