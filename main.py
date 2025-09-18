@@ -664,25 +664,26 @@ def wann(cfg, *args):
     
     params = estimator._convert_params()
     
-    results = {'wavelet' :      bool(round(wavelet)),
-               'mape_mean_he' : mean_mape_he,
-               'mape_mean_le' : mean_mape_le,
-               'modelo' :       estimator_name, 
-               'model_params' : params,
-               'wav_filter' :   wavelet_filter,
-               'level' :        dec_level,
-               'lb' :           look_backs,
-               'Lj' :           Lj,
-               'mape' :         mape1, 
-               'r2' :           r2, 
-               'rmse' :         rmse, 
-               'pred' :         testPredict.tolist(), 
-               'obs' :          testY.tolist(), 
-               'date' :         date.tolist(),
-               'train_time' :   train_time,
-               'test_time' :    test_time,
-               'train_pred':    pred.tolist(),
-               'train_obs':     trainY.tolist()}
+    results = {'framework'              : "Wavelet-DE-AutoML",
+               'wavelet'                : bool(round(wavelet)),
+               'mape_mean_he'           : mean_mape_he,
+               'mape_mean_le'           : mean_mape_le,
+               'model'                  : estimator_name, 
+               'model_params'           : params,
+               'wavelet_filter'         : wavelet_filter,
+               'decomposition_level'    : dec_level,
+               'look_back'              : look_backs,
+               'Lj'                     : Lj,
+               'mape'                   : mape1, 
+               'r2'                     : r2, 
+               'rmse'                   : rmse, 
+               'predicted'              : testPredict.tolist(), 
+               'observed'               : testY.tolist(), 
+               'date'                   : date.tolist(),
+               'train_time'             : train_time,
+               'test_time'              : test_time,
+               'train_predicted'        : pred.tolist(),
+               'train_observed'         : trainY.tolist()}
     
     return results
 
@@ -833,11 +834,12 @@ def main(run, df, heuristic,forecast,idx,population,iteractions,target_value,tim
         results=wann(mh, df, forecast, True)
         
         if results == np.inf:
+            
             raise ValueError("Heuristic did not find a result!")
         
-        results["est"] = df.columns[0]
+        results["station"] = df.columns[0]
         
-        results["hor"] = forecast
+        results["forecast"] = forecast
         
         results['run_time'] = time.perf_counter() - _start
         
@@ -845,7 +847,13 @@ def main(run, df, heuristic,forecast,idx,population,iteractions,target_value,tim
         
         results["heuristic"] = heuristic
         
-        results["heuristic evolution"] = evo
+        results["heuristic_evolution"] = evo
+
+        results["iteration"] = iteractions
+        
+        results["population"] = population
+
+        results["time_scale"] = time_scale
                 
         path = f'./pkl/{df.columns[0]}/{heuristic}/'
         
