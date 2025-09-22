@@ -50,7 +50,7 @@ The following prerequisites are required to run the project:
 
 This repository also includes separate implementations using **Auto-sklearn** and **AutoKeras**. To run these examples, you must install these libraries manually by following their official guides.
 
-* [Auto-sklearn Installation Guide](https://automl.github.io/auto-sklearn/stable/installation.html)
+* [Auto-sklearn Installation Guide](https://automl.github.io/auto-sklearn/master/installation.html)
 * [AutoKeras Installation Guide](https://autokeras.com/install/)
 
 > [!NOTE]
