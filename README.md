@@ -45,6 +45,18 @@ The following prerequisites are required to run the project:
     pip install -r requirements.txt
     ```
 
+
+### Using Auto-sklearn and AutoKeras
+
+This repository also includes separate implementations using **Auto-sklearn** and **AutoKeras**. To run these examples, you must install these libraries manually by following their official guides.
+
+* [Auto-sklearn Installation Guide](https://automl.github.io/auto-sklearn/stable/installation.html)
+* [AutoKeras Installation Guide](https://autokeras.com/install/)
+
+> [!NOTE]
+> These libraries have specific dependencies (e.g., Python versions, build tools, ML frameworks) that may differ from the core requirements of this project. Please review their documentation carefully before proceeding with the installation.
+
+
 ## How to Run
 
 [Execution instructions to be added here.]
@@ -56,6 +68,12 @@ The repository is structured to separate data, configuration, and the core logic
 <details open>
 <summary><strong>Complete Project Structure (Click to expand/collapse)</strong></summary>
 <ul>
+    <li>
+         <strong>autoKeras</strong> - Contains AutoKeras implementations for automated ML.     
+    </li>
+    <li>        
+        <strong>autoSklearn</strong> - Contains Auto-sklearn implementations for automated ML.
+    </li>
     <li>
         <details>
             <summary><strong>database/</strong> - Contains the time series datasets.</summary>
