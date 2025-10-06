@@ -59,7 +59,55 @@ This repository also includes separate implementations using **Auto-sklearn** an
 
 ## How to Run
 
-[Execution instructions to be added here.]
+To execute the code, simply run the `main.py` script:
+```python main.py
+```
+The main parameters can be modified directly in the `main.py` file, inside the following block at the end of the script:
+```if __name__ == "__main__":
+```
+Below is a description of the configurable parameters:
+
+* **RUNS (`int`)**: Number of experiment repetitions.
+
+* **FORECAST (`list[int]`)**: Forecast horizons to be used (depending on `TIME_SCALE`, e.g., in hours, days, or months).
+
+* **DATABASE (`dict`)**: Data sources to be used in the experiment.
+
+* **TIME_SCALE (`str`)**: Time resolution of the data. Available options:
+
+    * "hourly"
+
+    * "daily"
+
+    * "monthly"
+
+* **heuristics (`list[str]`)**: List of metaheuristic algorithms to be executed (e.g., `"de"`, `"pso"`, etc.).
+
+* **POPULATION (`int`)**: Population size used by the optimization algorithms.
+
+* **ITERACTIONS (`int`)**: Number of iterations for the optimization process.
+
+* **TARGET_VALUE (`float` or `int`)**:  
+  Early stopping threshold for the optimization process.  
+  The heuristic evaluates model performance using the MAPE (Mean Absolute Percentage Error).  
+  If the MAPE falls below this target value, the algorithm stops early.
+
+* **N_JOBS (`int`)**: Number of parallel jobs to be used (for multiprocessing).
+
+Example:
+```
+RUNS = 3
+FORECAST = [1, 3, 7]
+DATABASE = {"stations": ["58880001", "58235100"]}
+TIME_SCALE = "daily"
+heuristics = ["de"]
+POPULATION = 70
+ITERACTIONS = 150
+TARGET_VALUE = 1
+N_JOBS = 3
+```
+> [!NOTE]
+> Some options are commented out by default and can be enabled by uncommenting them as needed.
 
 ## Project Organization
 
