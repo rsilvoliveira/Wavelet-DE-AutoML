@@ -933,8 +933,7 @@ if __name__ == "__main__":
                 #             "PARANAIBA CACU",
                 #             "DOCE AIMORES",  
                 #             "URUGUAI CAMPOS NOVOS",
-                #             "PARAIBA DO SUL ANTA",],
-                # "tests"  : ["tests"]
+                #             "PARAIBA DO SUL ANTA",]
             }
     
 # =============================================================================
