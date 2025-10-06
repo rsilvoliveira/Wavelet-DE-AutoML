@@ -60,10 +60,12 @@ This repository also includes separate implementations using **Auto-sklearn** an
 ## How to Run
 
 To execute the code, simply run the `main.py` script:
-```python main.py
+```
+python main.py
 ```
 The main parameters can be modified directly in the `main.py` file, inside the following block at the end of the script:
-```if __name__ == "__main__":
+```
+if __name__ == "__main__":
 ```
 Below is a description of the configurable parameters:
 
