@@ -4,16 +4,16 @@ A novel automated framework for accurate streamflow forecasting that integrates 
 
 ## Description
 
-**Wavelet-DE-AutoML** is an automated framework for streamflow forecasting that integrates *wavelet transform-based preprocessing*, *Differential Evolution (DE) optimization*, and *Automated Machine Learning (AutoML)*.  
+**Wavelet-DE-AutoML** is an automated framework for streamflow forecasting that integrates *wavelet transform-based preprocessing*, *Differential Evolution optimization*, and *Automated Machine Learning (AutoML)*.  
 It simultaneously optimizes wavelet parameters, input lags, model selection, and hyperparameters to build high-performance forecasting models across multiple temporal scales (hourly, daily, and monthly).  
-While the framework supports multiple metaheuristic algorithms for optimization, its primary focus is on the Differential Evolution (DE) algorithm, which demonstrated superior efficiency and accuracy in systematic evaluations.  
+While the framework supports multiple metaheuristic algorithms for optimization, its primary focus is on the Differential Evolution algorithm, which demonstrated superior efficiency and accuracy in systematic evaluations.  
 By combining wavelet-based feature extraction with metaheuristic optimization, the framework achieves superior accuracy and robustness compared to conventional AutoML baselines, providing a scalable and interpretable solution for hydrological forecasting and water-resource management.
 
 
 
 ## How It Works
 
-This framework is designed to automate the process of building high-performance time series forecasting models. It takes a raw time series as input and uses a Differential Evolution (DE) metaheuristic to explore a vast search space of possible modeling pipelines.
+This framework is designed to automate the process of building high-performance time series forecasting models. It takes a raw time series as input and uses a Differential Evolution metaheuristic to explore a vast search space of possible modeling pipelines.
 
 The core functionality includes:
 
